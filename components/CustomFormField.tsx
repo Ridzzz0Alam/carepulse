@@ -99,8 +99,12 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
-          <div>
-            <Checkbox />
+          <div className="flex items-center gap-4">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
             <label htmlFor={props.name} className="checkbox-label">
               {props.label}
             </label>
