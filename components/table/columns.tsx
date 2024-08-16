@@ -4,14 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { StatusBadge } from "../StatusBadge";
 import { formatDateTime } from "@/lib/utils";
 import { Doctors } from "@/constants";
@@ -98,8 +91,22 @@ export const columns: ColumnDef<Appointment>[] = [
 
       return (
         <div className="flex gap-1">
-          <AppointmentModal />
-          <AppointmentModal />
+          <AppointmentModal
+            patientId={appointment.patient.$id}
+            userId={appointment.userId}
+            appointment={appointment}
+            type="schedule"
+            title="Schedule Appointment"
+            description="Please confirm the following details to schedule"
+          />
+          <AppointmentModal
+            patientId={appointment.patient.$id}
+            userId={appointment.userId}
+            appointment={appointment}
+            type="cancel"
+            title="Cancel Appointment"
+            description="Are you sure you want to cancel your appointment?"
+          />
         </div>
       );
     },

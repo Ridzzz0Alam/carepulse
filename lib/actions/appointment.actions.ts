@@ -9,6 +9,7 @@ import {
 import { parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
 import { document } from "postcss";
+import { revalidatePath } from "next/cache";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -88,5 +89,28 @@ export const getRecentAppointmentList = async () => {
       "An error occured while retrieving the recent appointments:",
       error
     );
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  try {
+    const updatedAppointment = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+
+    if (!updatedAppointment) throw Error;
+
+    revalidatePath("/admin");
+    return parseStringify(updatedAppointment);
+  } catch (error) {
+    console.error("An error occured while scheduling an appointment:", error);
   }
 };
