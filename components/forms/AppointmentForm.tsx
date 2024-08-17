@@ -43,9 +43,11 @@ const AppointmentForm = ({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
       primaryPhysician: appointment ? appointment.primaryPhysician : "",
-      schedule: appointment ? new Date(appointment.schedule) : new Date(),
+      schedule: appointment
+        ? new Date(appointment.schedule)
+        : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
-      note: appointment ? appointment.note : "",
+      note: appointment?.note || "",
       cancellationReason: appointment?.cancellationReason || "",
     },
   });
@@ -92,7 +94,9 @@ const AppointmentForm = ({
             primaryPhysician: values?.primaryPhysician,
             schedule: new Date(values?.schedule),
             status: status as Status,
-            cancellationReason: values?.cancellationReason,
+            cancellationReason: appointment
+              ? appointment.cancellationReason
+              : "",
           },
           type,
         };
